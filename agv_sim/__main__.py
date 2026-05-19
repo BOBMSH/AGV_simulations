@@ -20,7 +20,7 @@ from .controllers import (MPCController, MPCParameters, PIDController, PIDGains,
 from .plant import AGVParameters, AGVPlant
 from .scenarios import SCENARIOS
 from .utils import compute_kpis, run_simulation
-from .viz import plot_comparison, plot_single_run
+from .viz import plot_comparison, plot_single_run, plot_ipid_run
 
 
 # Per-scenario default PID gains, tuned for the nominal plant.
@@ -129,11 +129,18 @@ def main(argv=None) -> int:
     if len(runs) == 1:
         cname, log, kpis = runs[0]
         fname = results_dir / f"scenario_{scenario.name}_{cname}"
-        png = plot_single_run(
-            log=log, kpis=kpis, controller_name=cname,
-            scenario_name=scenario.name, scenario_description=scenario.description,
-            out_path=fname, show=args.show,
-        )
+        if cname == "ipid":
+            png = plot_ipid_run(
+                log=log, kpis=kpis,
+                scenario_name=scenario.name, scenario_description=scenario.description,
+                out_path=fname, show=args.show,
+            )
+        else:
+            png = plot_single_run(
+                log=log, kpis=kpis, controller_name=cname,
+                scenario_name=scenario.name, scenario_description=scenario.description,
+                out_path=fname, show=args.show,
+            )
         print(f"[saved] {png}")
     else:
         names_joined = "_".join(n for n, _, _ in runs)
