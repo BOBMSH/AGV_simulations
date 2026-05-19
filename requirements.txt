@@ -1,0 +1,10 @@
+# Phase 1
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.7
+tqdm>=4.65
+
+# Phase 2+ (uncomment when reached)
+# cvxpy>=1.4
+# osqp>=0.6.5
+# torch>=2.0
